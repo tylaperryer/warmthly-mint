@@ -344,6 +344,8 @@
       }
 
       .dropdown-item:hover { color: #FF8C42; }
+      .dropdown-item.dropdown-item-green { color: #33CE79; }
+      .dropdown-item.dropdown-item-green:hover { color: #28a75e; }
       .dropdown-item:first-child { margin-top: 0; }
       .dropdown-item:last-child { margin-bottom: 0; }
 
@@ -817,8 +819,8 @@
 
       .breakdown-button {
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 6px;
             padding: 0.25rem 0.5rem;
@@ -913,15 +915,15 @@
       /* Unified popup for receipts and reports - glass effect */
       .expense-popup {
             position: fixed;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(20px) saturate(1.2);
-            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            background: rgba(255, 251, 247, 0.97);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border-radius: 18px;
             padding: 1.5rem;
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             color: #2c2c2c;
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid rgba(255, 140, 66, 0.3);
             z-index: 2000;
             pointer-events: auto;
             opacity: 0;
@@ -930,8 +932,18 @@
             max-width: 400px;
             max-height: 60vh;
             overflow-y: auto;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.4),
-                        inset 0 -1px 1px rgba(0,0,0,0.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+      }
+
+      .expense-popup::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
       }
 
       .expense-popup::before {
@@ -976,8 +988,8 @@
             margin-bottom: 0.75rem;
             padding: 0.75rem;
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.15);
       }
@@ -1001,8 +1013,8 @@
             top: 0.75rem;
             right: 0.75rem;
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 6px;
             font-size: 1.2rem;
@@ -1043,8 +1055,8 @@
             font-size: 0.9rem;
             color: #2c2c2c;
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 8px;
             resize: vertical;
@@ -1064,8 +1076,8 @@
 
       .expense-popup-submit {
             background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             border: 1px solid rgba(255,255,255,0.25);
             border-radius: 8px;
             padding: 0.75rem 1.5rem;
@@ -1542,7 +1554,6 @@
   </header>
   
   <nav class="header-right" role="navigation" aria-label="Main navigation">
-    <a href="https://mint.warmthly.org/research" class="nav-link nav-link-green" aria-label="View our research and methods">Research</a>
     <div class="stoplight-container">
       <div class="stoplight" id="stoplight">
         <div class="stoplight-dot red"></div>
@@ -1554,9 +1565,7 @@
       <div class="dropdown-menu" id="dropdown-menu">
         <a href="https://www.warmthly.org" class="dropdown-item">Home</a>
         <a href="https://post.warmthly.org" class="dropdown-item">Post</a>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item dropdown-button" id="reportButton" aria-label="Report an expense or issue">Report</button>
-        <button class="dropdown-item dropdown-button" id="flagButton" aria-label="Flag something done wrong">Flag</button>
+        <a href="https://mint.warmthly.org/research" class="dropdown-item dropdown-item-green" aria-label="View our research and methods">Research</a>
       </div>
       <!-- --- MODIFICATION END --- -->
     </div>
@@ -4476,67 +4485,6 @@
         e.stopPropagation();
       });
 
-      // Report and Flag button handlers
-      const reportButton = document.getElementById('reportButton');
-      const flagButton = document.getElementById('flagButton');
-
-      function handleReport() {
-            // Open report modal or form
-            const reportText = prompt('Please describe the expense or issue you want to report:');
-            if (reportText && reportText.trim()) {
-                  // Here you would send the report to your backend/Firebase
-                  console.log('Report submitted:', reportText);
-                  alert('Thank you for your report. We will review it shortly.');
-                  
-                  // TODO: Send to Firebase or backend API
-                  // Example:
-                  // if (window.firebaseDb) {
-                  //   const { collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-                  //   await addDoc(collection(window.firebaseDb, 'reports'), {
-                  //     text: reportText,
-                  //     timestamp: new Date(),
-                  //     type: 'report'
-                  //   });
-                  // }
-            }
-      }
-
-      function handleFlag() {
-            // Open flag modal or form
-            const flagText = prompt('Please describe what was done wrong that you want to flag:');
-            if (flagText && flagText.trim()) {
-                  // Here you would send the flag to your backend/Firebase
-                  console.log('Flag submitted:', flagText);
-                  alert('Thank you for flagging this. We will investigate.');
-                  
-                  // TODO: Send to Firebase or backend API
-                  // Example:
-                  // if (window.firebaseDb) {
-                  //   const { collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-                  //   await addDoc(collection(window.firebaseDb, 'flags'), {
-                  //     text: flagText,
-                  //     timestamp: new Date(),
-                  //     type: 'flag'
-                  //   });
-                  // }
-            }
-      }
-
-      if (reportButton) {
-            reportButton.addEventListener('click', (e) => {
-                  e.stopPropagation();
-                  handleReport();
-                  toggleMenu(); // Close menu after action
-            });
-      }
-
-      if (flagButton) {
-            flagButton.addEventListener('click', (e) => {
-                  e.stopPropagation();
-                  handleFlag();
-                  toggleMenu(); // Close menu after action
-            });
-      }
       
       
       // Section animation on scroll
